@@ -1,13 +1,17 @@
 from __future__ import annotations
+from flask_sqlalchemy import SQLAlchemy
 
-def validate_username(username: str) -> bool:
+#move this to __init__
+db = SQLAlchemy()
+
+def validate_username(username: str):
     if not isinstance(username, str):
         raise TypeError("Username must be a string.")
     
     if len(username.strip()) < 3:
         raise ValueError("Username must be at least 3 characters long.")
 
-def validate_password(password: str) -> bool:
+def validate_password(password: str):
     if not isinstance(password, str):
         raise TypeError("Password must be a string.")
     
@@ -23,7 +27,12 @@ def validate_password(password: str) -> bool:
         raise ValueError("Password must have at least one uppercase, one lowercase and one digit.")
 
 
-class User:
+class User(db.Model):
+    __tablename__ = "users"
+    id = db.Columnn(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
     def __init__(self, username: str, password: str):
         validate_username(username)
         self._username = username

@@ -8,16 +8,16 @@ MyStoryShelf is flask web app that allows a user to track and review all sorts o
 **Windows**
 ```shell
 $ cd <project directory>
-$ python3 -m venv venv
-$ venv\Scripts\activate
+$ python3 -m venv .venv
+$ .venv\Scripts\activate
 $ pip install -r requirements.txt
 ```
 
 **MacOS**
 ```shell
 $ cd <project directory>
-$ python3 -m venv venv
-$ source venv/Scripts/activate
+$ python3 -m venv .venv
+$ source .venv/Scripts/activate
 $ pip install -r requirements.txt
 ```
 
@@ -38,3 +38,4 @@ $ python -m pytest -v tests
 ## Configuration
 
 ## Data sources
+
