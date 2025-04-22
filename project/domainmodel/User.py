@@ -1,8 +1,4 @@
 from __future__ import annotations
-from flask_sqlalchemy import SQLAlchemy
-
-#move this to __init__
-db = SQLAlchemy()
 
 def validate_username(username: str):
     if not isinstance(username, str):
@@ -27,11 +23,7 @@ def validate_password(password: str):
         raise ValueError("Password must have at least one uppercase, one lowercase and one digit.")
 
 
-class User(db.Model):
-    __tablename__ = "users"
-    id = db.Columnn(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+class User():
 
     def __init__(self, username: str, password: str):
         validate_username(username)
