@@ -9,6 +9,8 @@ def create_app():
 
     with app.app_context():
         # register blueprints
+        from .home import home
+        app.register_blueprint(home.home_blueprint)
         pass
 
     return app
