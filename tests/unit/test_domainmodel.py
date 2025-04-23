@@ -5,6 +5,8 @@ from project.domainmodel.User import User
 Unit tests for the domain model of the web application
 """
 
+# User class unit tests
+
 def test_user_initialisation():
     user1 = User("john", "Password1")
     assert repr(user1) == "<User: john>"
@@ -50,3 +52,11 @@ def test_user_hash():
     assert repr(sorted(user_set)) == "[<User: aaron>, <User: brian>, <User: chris>]"
     user_set.discard(user1)
     assert repr(sorted(user_set)) == "[<User: brian>, <User: chris>]"
+
+# Book class unit tests
+
+
+# Movie class unit tests
+
+
+# Show class unit tests

@@ -4,7 +4,7 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from project.domainmodel.User import User
-from project.domainmodel.MediaType import MediaType
+from project.domainmodel.Media import Media, Movie, Show, Book
 from project.repositories.repository import AbstractRepository
 
 

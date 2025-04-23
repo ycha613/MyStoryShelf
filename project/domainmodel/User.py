@@ -39,18 +39,18 @@ class User():
     def password(self) -> str:
         return self._password
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<User: {self.username}>"
     
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if not isinstance(other, User):
             return False
         return self.username == other.username
     
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         if not isinstance(other, User):
             return False
         return self.username < other.username
     
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.username)

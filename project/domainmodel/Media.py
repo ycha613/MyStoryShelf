@@ -5,7 +5,8 @@ import project.domainmodel.User as User
 class Media:
     def __init__(self, title: str, user: User.User):
         self._id = None
-        self._title = title
+        adj_title = " ".join([a.capitalize() for a in title.strip().split()])
+        self._title = adj_title
         self._user = user
 
     @property
@@ -19,6 +20,24 @@ class Media:
     @property
     def user(self) -> User.User:
         return self._user
+    
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__}: {self.title}>"
+    
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, self.__class__):
+            return False
+        else:
+            return self._title.lower() == other._title.lower()
+        
+    def __lt__(self, other) -> bool:
+        if not isinstance(other, Media):
+            return False
+        else:
+            return self._title.lower() < other._title.lower()
+        
+    def __hash__(self) -> int:
+        return hash(self._title.lower())
 
 
 class Book(Media):
@@ -44,15 +63,9 @@ class Movie(Media):
 
 
 class Show(Media):
-    def __init__(self, title: str, user: User.User, director: str, season: int):
+    def __init__(self, title: str, user: User.User, season: int):
         super().__init__(title, user)
-        adj_director = " ".join([a.capitalize() for a in director.strip().split()])
-        self._director = adj_director
         self._season = season
-
-    @property
-    def director(self) -> str:
-        return self._director
     
     @property
     def season(self) -> int:
