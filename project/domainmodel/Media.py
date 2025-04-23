@@ -43,8 +43,7 @@ class Media:
     def __lt__(self, other) -> bool:
         if not isinstance(other, Media):
             return False
-        else:
-            return self._title < other._title
+        return self._title < other._title
 
 
 class Book(Media):
@@ -61,8 +60,7 @@ class Book(Media):
     def __eq__(self, other) -> bool:
         if not isinstance(other, Book):
             return False
-        else:
-            return self._title == other._title and self._author == other._author
+        return self._title == other._title and self._author == other._author
         
     def __hash__(self) -> int:
         return hash(self._title + self._author + self.__class__.__name__)
@@ -82,8 +80,7 @@ class Movie(Media):
     def __eq__(self, other) -> bool:
         if not isinstance(other, Movie):
             return False
-        else:
-            return self._title == other._title and self._director == other._director
+        return self._title == other._title and self._director == other._director
     
     def __hash__(self) -> int:
         return hash(self._title + self._director + self.__class__.__name__)
@@ -102,8 +99,14 @@ class Show(Media):
     def __eq__(self, other) -> bool:
         if not isinstance(other, Show):
             return False
-        else:
-            return self._title == other._title and self._season == other._season
+        return self._title == other._title and self._season == other._season
+    
+    def __lt__(self, other) -> bool:
+        if not isinstance(other, Media):
+            return False
+        if isinstance(other, Show) and self._title == other._title:
+            return self._season < other._season
+        return self._title < other._title
         
     def __hash__(self) -> int:
         return hash(self._title + str(self._season) + self.__class__.__name__)

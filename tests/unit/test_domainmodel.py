@@ -112,7 +112,117 @@ def test_book_hash(my_user):
     books_set.discard(book1)
     assert repr(sorted(books_set)) == "[<Book: Neverland>, <Book: Orpheus>]"
 
+
 # Movie class unit tests
+
+def test_movie_initialisation(my_user):
+    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
+    assert repr(movie1) == "<Movie: Psycho>"
+    assert movie1.title == "Psycho"
+    assert movie1.director == "Alfred Hitchcock"
+
+    with pytest.raises(TypeError):
+        movie2 = Movie(title=3, user=my_user, director="Alfred Hitchcock")
+    with pytest.raises(TypeError):
+        movie2 = Movie(title="Psycho 2", user=2, director="Alfred Hitchcock")
+    with pytest.raises(TypeError):
+        movie2 = Movie(title="Psycho 2", user=my_user, director=2)
+
+    with pytest.raises(ValueError):
+        movie2 = Movie(title="", user=my_user, director="Alfred Hitchcock")
+    with pytest.raises(ValueError):
+        movie2 = Movie(title="Psycho 2", user=my_user, director="")
+
+    movie2 = Movie(title="pSycHO", user=my_user, director="alfred HITCHCOCK")
+    assert movie2.title == "Psycho"
+    assert movie2.director == "Alfred Hitchcock"
+
+def test_movie_eq(my_user):
+    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
+    movie2 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
+    movie3 = Movie(title="Vertigo", user=my_user, director="Alfred Hitchcock")
+    movie4 = Movie(title="Psycho", user=my_user, director="John Richards")
+    assert movie1 == movie2
+    assert movie1 != movie3
+    assert movie1 != movie4
+    assert movie4 == movie4
+
+def test_movie_lt(my_user):
+    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
+    movie2 = Movie(title="Stage Fright", user=my_user, director="Alfred Hitchcock")
+    movie3 = Movie(title="Vertigo", user=my_user, director="Alfred Hitchcock")
+    movies_list = [movie3, movie2, movie1]
+    assert movie1 < movie2 < movie3
+    assert sorted(movies_list) == [movie1, movie2, movie3]
+
+
+def test_movie_hash(my_user):
+    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
+    movie2 = Movie(title="Stage Fright", user=my_user, director="Alfred Hitchcock")
+    movie3 = Movie(title="Vertigo", user=my_user, director="Alfred Hitchcock")
+    movies_set = set()
+    movies_set.add(movie1)
+    movies_set.add(movie2)
+    movies_set.add(movie3)
+
+    assert len(movies_set) == 3
+    assert repr(sorted(movies_set)) == "[<Movie: Psycho>, <Movie: Stage Fright>, <Movie: Vertigo>]"
+    movies_set.discard(movie1)
+    assert repr(sorted(movies_set)) == "[<Movie: Stage Fright>, <Movie: Vertigo>]"
 
 
 # Show class unit tests
+
+def test_show_initialisation(my_user):
+    show1 = Show(title="Breaking Bad", user=my_user, season=1)
+    assert repr(show1) == "<Show: Breaking Bad>"
+    assert show1.title == "Breaking Bad"
+    assert show1.season == 1
+
+    with pytest.raises(TypeError):
+        show2 = Show(title=3, user=my_user, season=1)
+    with pytest.raises(TypeError):
+        show2 = Show(title="Breaking Bad", user=2, season=1)
+    with pytest.raises(TypeError):
+        show2 = Show(title="Breaking Bad", user=my_user, season="")
+
+    with pytest.raises(ValueError):
+        show2 = Show(title="", user=my_user, season=1)
+    with pytest.raises(ValueError):
+        show2 = Show(title="Breaking Bad", user=my_user, season=0)
+
+    show2 = Show(title="breaking BAD", user=my_user, season=1)
+    assert show2.title == "Breaking Bad"
+
+def test_show_eq(my_user):
+    show1 = Show(title="Breaking Bad", user=my_user, season=1)
+    show2 = Show(title="Breaking Bad", user=my_user, season=1)
+    show3 = Show(title="Breaking Bad", user=my_user, season=2)
+    show4 = Show(title="Game Of Thrones", user=my_user, season=1)
+    assert show1 == show2
+    assert show1 != show3
+    assert show1 != show4
+    assert show4 == show4
+
+def test_show_lt(my_user):
+    show1 = Show(title="Breaking Bad", user=my_user, season=1)
+    show2 = Show(title="Breaking Bad", user=my_user, season=2)
+    show3 = Show(title="Game Of Thrones", user=my_user, season=1)
+    shows_list = [show2, show3, show1]
+    assert show1 < show2 < show3
+    assert sorted(shows_list) == [show1, show2, show3]
+
+
+def test_show_hash(my_user):
+    show1 = Show(title="Breaking Bad", user=my_user, season=1)
+    show2 = Show(title="Breaking Bad", user=my_user, season=2)
+    show3 = Show(title="Game Of Thrones", user=my_user, season=1)
+    shows_set = set()
+    shows_set.add(show1)
+    shows_set.add(show2)
+    shows_set.add(show3)
+
+    assert len(shows_set) == 3
+    assert repr(sorted(shows_set)) == "[<Show: Breaking Bad>, <Show: Breaking Bad>, <Show: Game Of Thrones>]"
+    shows_set.discard(show1)
+    assert repr(sorted(shows_set)) == "[<Show: Breaking Bad>, <Show: Game Of Thrones>]"
