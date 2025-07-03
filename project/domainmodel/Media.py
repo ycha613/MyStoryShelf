@@ -65,26 +65,6 @@ class Book(Media):
     def __hash__(self) -> int:
         return hash(self._title + self._author + self.__class__.__name__)
 
-   
-class Movie(Media):
-    def __init__(self, title: str, user: User, director: str):
-        super().__init__(title, user)
-        validate_string(director)
-        adj_director = " ".join([a.capitalize() for a in director.strip().split()])
-        self._director = adj_director
-
-    @property
-    def director(self) -> str:
-        return self._director
-    
-    def __eq__(self, other) -> bool:
-        if not isinstance(other, Movie):
-            return False
-        return self._title == other._title and self._director == other._director
-    
-    def __hash__(self) -> int:
-        return hash(self._title + self._director + self.__class__.__name__)
-
 
 class Show(Media):
     def __init__(self, title: str, user: User, season: int):

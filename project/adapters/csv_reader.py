@@ -11,7 +11,8 @@ class MovieCSVReader:
         self._genres = dict()
 
     def read_files(self, stopping_id = None):
-        with open(self._movies_file, 'r') as movies_file:
+        # first id is 1000001 in current data set
+        with open(self._movies_file, 'r', encoding='utf-8') as movies_file:
             movies_reader = csv.reader(movies_file)
             next(movies_reader)
             for row in movies_reader:
@@ -29,7 +30,7 @@ class MovieCSVReader:
                 except (ValueError, IndexError):
                     continue
         
-        with open(self._posters_file, 'r') as posters_file:
+        with open(self._posters_file, 'r', encoding='utf-8') as posters_file:
             posters_reader = csv.reader(posters_file)
             next(posters_reader)
             for row in posters_reader:
@@ -43,7 +44,7 @@ class MovieCSVReader:
                 except (ValueError, IndexError):
                     continue
         
-        with open(self._genres_file, 'r') as genres_file:
+        with open(self._genres_file, 'r', encoding='utf-8') as genres_file:
             id_counter = 1
             genres_reader = csv.reader(genres_file)
             next(genres_reader)

@@ -4,4 +4,5 @@ __pycache__
 .idea
 .vscode
 .env
-project/repositories/data
+project/adapters/data/
+*.db

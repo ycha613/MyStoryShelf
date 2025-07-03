@@ -4,8 +4,9 @@ from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from project.domainmodel.User import User
-from project.domainmodel.Media import Media, Movie, Show, Book
-from project.repositories.repository import AbstractRepository
+from project.domainmodel.Movie import Movie, Genre
+from project.adapters.repository import AbstractRepository
+from project.adapters.csv_reader import MovieCSVReader
 
 
 class SessionContextManager:
@@ -49,3 +50,22 @@ class DatabaseRepository(AbstractRepository):
         self._session_cm.reset_session()
 
     # implement relevant methods in abstract repository
+
+    def add_movie(self, movie: Movie):
+        if not movie or not isinstance(movie, Movie): return
+        with self._session_cm as scm:
+            scm.session.add(movie)
+            scm.commit()
+
+    def add_movies(self, movies: list[Movie]):
+        if not movies: return
+        with self._session_cm as scm:
+            for movie in movies:
+                if isinstance(movie, Movie): scm.session.add(movie)
+            scm.commit()
+
+
+
+def database_repository_populate(csvreader: MovieCSVReader, repo: DatabaseRepository):
+    csvreader.read_files()
+    repo.add_movies(csvreader._movies.values())
