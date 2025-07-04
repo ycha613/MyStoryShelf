@@ -42,6 +42,7 @@ class SessionContextManager:
 class DatabaseRepository(AbstractRepository):
     def __init__(self, session_factory):
         self._session_cm = SessionContextManager(session_factory)
+        self._page_size = 5
 
     def close_session(self):
         self._session_cm.close_current_session()
@@ -63,6 +64,22 @@ class DatabaseRepository(AbstractRepository):
             for movie in movies:
                 if isinstance(movie, Movie): scm.session.add(movie)
             scm.commit()
+
+    def get_total_pages(self) -> int:
+        with self._session_cm as scm:
+            total_movies = scm.session.query(Movie).count()
+            return (total_movies + self._page_size - 1) // self._page_size
+        
+    def get_movies_by_page(self, page_number: int) -> list[Movie]:
+        max_page_number = self.get_total_pages()
+        if page_number < 1 or page_number > max_page_number:
+            raise ValueError("Page number is invalid.")
+        
+        with self._session_cm as scm:
+            offset = (page_number - 1) * self._page_size
+            stmt = select(Movie).order_by(Movie.title.asc()).offset(offset).limit(self._page_size)
+            result = scm.session.execute(stmt).scalars().all()
+            return result
 
 
 
