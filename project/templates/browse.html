@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title> Movies </title>
+{% endblock %}
+
+{% block body %}
+
+<h1> Browse Movies </h1>
+<p>page {{page_id}} out of {{last_page}}</p>
+
+<div class="movie-grid">
+    {% for movie in movies %}
+    <div class="movie-grid-display">
+        <img class="movie-poster" src="{{movie.poster_link}}" alt="movie poster"/>
+        <p class="movie-title">{{movie.title}}</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

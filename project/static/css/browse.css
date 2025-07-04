@@ -1,0 +1,37 @@
+.movie-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 10px 60px;
+    column-gap: 40px;
+    row-gap: 25px;
+    padding: 10px;
+}
+
+.movie-grid-display {
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+    padding-top: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.movie-grid-display:hover {
+    background-color: lightgray;
+    border: 1px solid black;
+    transition: 0.1s;
+}
+
+.movie-poster {
+    border-radius: 2px;
+    width: 200px;
+}
+
+.movie-title {
+    font-size: 12px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}

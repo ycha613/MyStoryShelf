@@ -20,6 +20,8 @@ class MovieCSVReader:
                     id = int(row[0])
                     title = row[1]
                     date = int(row[2])
+                    if not title[0].isalpha() or date > 2024:
+                        continue
                     description = row[4]
                     runtime = (-1 if row[5] == "" else int(row[5]))
                     if (stopping_id is not None and id > stopping_id):

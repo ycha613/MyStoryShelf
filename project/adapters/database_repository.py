@@ -42,7 +42,7 @@ class SessionContextManager:
 class DatabaseRepository(AbstractRepository):
     def __init__(self, session_factory):
         self._session_cm = SessionContextManager(session_factory)
-        self._page_size = 5
+        self._page_size = 20
 
     def close_session(self):
         self._session_cm.close_current_session()
@@ -77,7 +77,10 @@ class DatabaseRepository(AbstractRepository):
         
         with self._session_cm as scm:
             offset = (page_number - 1) * self._page_size
-            stmt = select(Movie).order_by(Movie.title.asc()).offset(offset).limit(self._page_size)
+            stmt = select(Movie).order_by(
+                Movie._release_year.desc(), 
+                Movie._title.asc()
+                ).offset(offset).limit(self._page_size)
             result = scm.session.execute(stmt).scalars().all()
             return result
 

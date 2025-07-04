@@ -13,3 +13,11 @@ class AbstractRepository(ABC):
     @abstractmethod
     def add_movies(self):
         raise NotImplementedError
+    
+    @abstractmethod
+    def get_total_pages(self) -> int:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def get_movies_by_page(self, page_number: int) -> list[Movie]:
+        raise NotImplementedError

@@ -55,6 +55,8 @@ def create_app():
         # register blueprints
         from .home import home
         app.register_blueprint(home.home_blueprint)
+        from .browse import browse
+        app.register_blueprint(browse.browse_blueprint)
 
         # register callbacks to ensure database sessions are correct
         @app.before_request
