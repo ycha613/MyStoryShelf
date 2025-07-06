@@ -1,0 +1,21 @@
+.description-container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    margin: 20px 50px;
+    width: 90%;
+    background-color: white;
+    border: 1px solid lightgray;
+    height: auto;
+}
+
+.description-image {
+    width: 35%;
+    height: auto;
+    border: 5px solid black;
+    margin-left: 30px;
+}
+
+.description-information {
+    margin-left: 50px;
+}

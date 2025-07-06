@@ -29,3 +29,7 @@ class AbstractRepository(ABC):
     @abstractmethod
     def get_movies_by_page(self, page_number: int) -> list[Movie]:
         raise NotImplementedError
+    
+    @abstractmethod
+    def get_movie_by_id(self, movie_id: int) -> Movie:
+        raise NotImplementedError

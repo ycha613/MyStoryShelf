@@ -12,8 +12,10 @@
 <div class="movie-grid">
     {% for movie in movies %}
     <div class="movie-grid-display">
-        <img class="movie-poster" src="{{movie.poster_link}}" alt="movie poster"/>
-        <p class="movie-title">{{movie.title}}</p>
+        <a href="{{ url_for('browse_bp.movie', movie_id=movie.id)}}" class="description-link">
+            <img class="movie-poster" src="{{movie.poster_link}}" alt="movie poster"/>
+            <p class="movie-title">{{movie.title}}</p>
+        </a>
     </div>
     {% endfor %}
 </div>

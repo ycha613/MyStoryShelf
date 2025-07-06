@@ -13,3 +13,11 @@ def browse(page_id):
     username = get_username()
     return render_template("browse.html", movies=movies, page_id=page_id,
                            last_page=last_page, username=username)
+
+
+@browse_blueprint.route("/movie/<int:movie_id>", methods=["GET"])
+def movie(movie_id):
+    movie = services.get_movie_by_id(repo.repo_instance, movie_id)
+
+    username = get_username()
+    return render_template("movie.html", movie=movie, username=username)

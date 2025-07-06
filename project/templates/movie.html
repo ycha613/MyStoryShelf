@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{%  block head %}
+    <title>{{movie.title}}</title>
+{% endblock %}
+
+<!-- Movie has title, poster_link, release_year, description, runtime, genres -->
+
+{% block body %}
+
+<h1> Browse Movies </h1>
+<div class="description-container">
+    <img src = "{{ movie.poster_link }}" class = "description-image" alt="movie poster">
+    <div class="description-information">
+        <h2>{{ movie.title }}</h2>
+        <!-- description, genres, runtime, release year -->
+        {% if movie.description == "" %}
+            <p class="description"><b>Description:</b> Description not added for {{ movie.title }}</p>
+        {% else %}
+            <p class="description"><b>Description:</b> {{ movie.description }}</p>
+        {% endif %}
+
+        <p><b>Genres:</b></p>
+         <ul>
+             {% for genre in movie.genres %}
+                <li>{{ genre.name }}</li>
+             {% endfor %}
+         </ul>
+
+        {% if movie.runtime == -1 %}
+            <p>Runtime not added for  {{ movie.title }}</p>
+        {% else %}
+            <p><b>Runtime: </b>{{ movie.runtime }}</p>
+        {% endif %}
+
+        <p><b>Release year: </b>{{ movie.release_year }}</p>
+
+    </div>
+</div>
+
+{% endblock %}

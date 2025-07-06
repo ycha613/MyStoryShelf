@@ -96,6 +96,15 @@ class DatabaseRepository(AbstractRepository):
                 ).offset(offset).limit(self._page_size)
             result = scm.session.execute(stmt).scalars().all()
             return result
+        
+    def get_movie_by_id(self, movie_id: int) -> Movie:
+        movie = None
+        try:
+            movie = self._session_cm.session.query(Movie).filter(Movie._id == movie_id).one()
+        except NoResultFound:
+            pass
+        return movie
+
 
 
 
