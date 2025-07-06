@@ -24,7 +24,6 @@ def validate_password(password: str):
 
 
 class User():
-
     def __init__(self, username: str, password: str):
         validate_username(username)
         self._username = username

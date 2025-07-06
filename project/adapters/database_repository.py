@@ -52,6 +52,19 @@ class DatabaseRepository(AbstractRepository):
 
     # implement relevant methods in abstract repository
 
+    def get_user(self, user_name: str) -> User:
+        user = None
+        try:
+            user = self._session_cm.session.query(User).filter(User._username == user_name).one()
+        except NoResultFound:
+            pass
+        return user
+    
+    def add_user(self, user: User):
+        with self._session_cm as scm:
+            scm.session.add(user)
+            scm.commit()
+
     def add_movie(self, movie: Movie):
         if not movie or not isinstance(movie, Movie): return
         with self._session_cm as scm:

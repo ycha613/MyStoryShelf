@@ -7,6 +7,14 @@ repo_instance = None
 
 class AbstractRepository(ABC):
     @abstractmethod
+    def get_user(self, user_name: str) -> User:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def add_user(self, user: User):
+        raise NotImplementedError
+
+    @abstractmethod
     def add_movie(self):
         raise NotImplementedError
     
