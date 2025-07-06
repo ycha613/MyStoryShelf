@@ -20,7 +20,7 @@ def register():
         except services.NameNotUniqueException:
             user_name_not_unique = "Your user name is already taken - please supply another"
     return render_template(
-        "authentication/credentials.html",
+        "credentials.html",
         title="Register",
         form=form,
         user_name_error_message=user_name_not_unique,
@@ -48,7 +48,7 @@ def login():
             password_does_not_match_user_name = 'Password does not match the entered username, please check and try again'
 
     return render_template(
-        'authentication/credentials.html',
+        'credentials.html',
         title='Login',
         form=form,
         user_name_error_message=user_name_not_recognised,

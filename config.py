@@ -7,7 +7,7 @@ load_dotenv()
 class Config:
     FLASK_APP = environ.get("FLASK_APP")
     FLASK_ENV = environ.get("FLASK_ENV")
-    # add secret key
+    SECRET_KEY = environ.get("SECRET_KEY")
 
     # Database
     SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
