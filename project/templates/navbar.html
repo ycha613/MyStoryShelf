@@ -5,7 +5,7 @@
         <li><a href="{{ url_for('home_bp.home') }}">Home</a></li>
         <li><a href="{{ url_for('browse_bp.browse', page_id=1)}}">Movies</a></a></li>
         {% if username %}
-        <li><a>{{ username }}</a></li>
+        <li><a href="{{ url_for('profile_bp.profile', username=username )}}">{{ username }}'s Profile</a></li>
         <li><a href="{{ url_for('authentication_bp.logout' )}}">Logout</a></li>
         {% else %}
         <li><a href="{{ url_for('authentication_bp.register' )}}">Register</a></li>

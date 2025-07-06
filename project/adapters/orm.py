@@ -36,6 +36,18 @@ users_table = Table(
     Column('password', String(255), nullable=False)
 )
 
+watched_table = Table(
+    'watched', mapper_registry.metadata,
+    Column('user_id', Integer, ForeignKey('users.user_id')),
+    Column('movie_id', Integer, ForeignKey('movies.movie_id'))
+)
+
+watchlist_table = Table(
+    'watchlist', mapper_registry.metadata,
+    Column('user_id', Integer, ForeignKey('users.user_id')),
+    Column('movie_id', Integer, ForeignKey('movies.movie_id'))
+)
+
 
 def map_model_to_tables():
     mapper_registry.map_imperatively(Movie, movies_table, properties={
@@ -56,5 +68,8 @@ def map_model_to_tables():
     mapper_registry.map_imperatively(User, users_table, properties={
         '_id': users_table.c.user_id,
         '_username': users_table.c.username,
-        '_password': users_table.c.password
+        '_password': users_table.c.password,
+        '_watched': relationship(Movie, secondary=watched_table),
+        '_watchlist': relationship(Movie, secondary=watchlist_table)
+
     })

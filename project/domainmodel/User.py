@@ -1,4 +1,5 @@
 from __future__ import annotations
+from project.domainmodel.Movie import Movie
 
 def validate_username(username: str):
     if not isinstance(username, str):
@@ -29,6 +30,8 @@ class User():
         self._username = username
         validate_password(password)
         self._password = password
+        self._watched = list()
+        self._watchlist = list()
         
     @property
     def username(self) -> str:
@@ -37,6 +40,26 @@ class User():
     @property
     def password(self) -> str:
         return self._password
+    
+    @property
+    def watched(self) -> list[Movie]:
+        return self._watched.copy()
+    
+    @property
+    def watchlist(self) -> list[Movie]:
+        return self._watchlist.copy()
+    
+    def add_watched(self, movie: Movie):
+        if movie not in self._watched:
+            self._watched.append(movie)
+            if movie in self._watchlist:
+                self._watchlist.pop(movie)
+
+    def add_watchlist(self, movie: Movie):
+        if movie not in self._watchlist:
+            self._watchlist.append(movie)
+            if movie in self._watched:
+                self._watched.pop(movie)
     
     def __repr__(self) -> str:
         return f"<User: {self.username}>"
