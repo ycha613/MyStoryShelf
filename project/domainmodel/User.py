@@ -55,7 +55,7 @@ class User():
 
     def remove_watched(self, movie: Movie):
         if movie in self._watched:
-            self._watched.pop(movie)
+            self._watched.remove(movie)
 
     def add_watchlist(self, movie: Movie):
         if movie not in self._watchlist:
@@ -63,7 +63,7 @@ class User():
     
     def remove_watchlist(self, movie: Movie):
         if movie in self._watchlist:
-            self._watchlist.pop(movie)
+            self._watchlist.remove(movie)
     
     def __repr__(self) -> str:
         return f"<User: {self.username}>"

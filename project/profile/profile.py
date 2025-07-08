@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, jsonify
 import project.adapters.repository as repo
 import project.profile.services as services
 from project.helpers import get_username
-from project.authentication import login_required
+from project.authentication.authentication import login_required
 
 profile_blueprint = Blueprint("profile_bp", __name__)
 
@@ -10,6 +10,7 @@ profile_blueprint = Blueprint("profile_bp", __name__)
 def profile(username):
     # get user object, make sure watched and watchlist eagerly loaded
     user = services.get_user(repo=repo.repo_instance, username=username)
+    print(user.watched)
 
     return render_template("profile.html", user=user, username=username)
 
@@ -54,3 +55,4 @@ def toggle_watched(movie_id):
     
     json_payload = {"success": True, "in_list": in_list}
     return jsonify(json_payload)
+

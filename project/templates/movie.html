@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {%  block head %}
     <title>{{movie.title}}</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/togglelists.js') }}" defer="defer"></script>
 {% endblock %}
 
 <!-- Movie has title, poster_link, release_year, description, runtime, genres -->
@@ -29,10 +30,19 @@
         {% if movie.runtime == -1 %}
             <p>Runtime not added for  {{ movie.title }}</p>
         {% else %}
-            <p><b>Runtime: </b>{{ movie.runtime }}</p>
+            <p><b>Runtime: </b>{{ movie.runtime }} min</p>
         {% endif %}
 
         <p><b>Release year: </b>{{ movie.release_year }}</p>
+
+        <!-- add / remove watched / watchlist-->
+        <button class="toggle-button" data-type="watchlist" data-movie-id="{{ movie.id }}">
+        {% if movie in user.watchlist %}Remove from Watchlist{% else %}Add to Watchlist{% endif %}
+        </button>
+
+        <button class="toggle-button" data-type="watched" data-movie-id="{{ movie.id }}">
+        {% if movie in user.watched %}Remove from Watched{% else %}Add to Watched{% endif %}
+        </button>
 
     </div>
 </div>

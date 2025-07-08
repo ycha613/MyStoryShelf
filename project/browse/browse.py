@@ -20,4 +20,5 @@ def movie(movie_id):
     movie = services.get_movie_by_id(repo.repo_instance, movie_id)
 
     username = get_username()
-    return render_template("movie.html", movie=movie, username=username)
+    user = services.get_user(repo.repo_instance, username)
+    return render_template("movie.html", movie=movie, username=username, user=user)
