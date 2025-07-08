@@ -6,8 +6,8 @@
 
 .movie-list {
   flex: 1;
-  max-height: 800px;          /* Adjust height as needed */
-  overflow-y: auto;
+  max-height: 400px;          /* Adjust height as needed */
+  overflow-x: auto;
   border: 1px solid #ccc;
   padding: 0.5rem;
   background-color: white;
