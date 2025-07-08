@@ -1,7 +1,7 @@
 // js for buttons adding / removing movies in user watched / watchlist for movie.html
 
 document.addEventListener("DOMContentLoaded", function () {
-  const buttons = document.querySelectorAll(".toggle-button");
+  const buttons = document.querySelectorAll(".toggle-button-movie");
 
   buttons.forEach(button => {
     button.addEventListener("click", async function () {

@@ -10,7 +10,6 @@ profile_blueprint = Blueprint("profile_bp", __name__)
 def profile(username):
     # get user object, make sure watched and watchlist eagerly loaded
     user = services.get_user(repo=repo.repo_instance, username=username)
-    print(user.watched)
 
     return render_template("profile.html", user=user, username=username)
 
@@ -43,7 +42,6 @@ def toggle_watched(movie_id):
     # possible that watchlist and watched not eagerly loaded?
     user = services.get_user(repo=repo.repo_instance, username=username)
     movie = services.get_movie_by_id(repo=repo.repo_instance, movie_id=movie_id)
-
     in_list = False
     if movie in user.watched:
         user.remove_watched(movie)

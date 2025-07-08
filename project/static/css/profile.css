@@ -11,15 +11,18 @@
   border: 1px solid #ccc;
   padding: 0.5rem;
   background-color: white;
+  width: 250px;
 }
 
 .movie-row {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
-  border: 2px solid black;
   text-decoration: none;
   color: black;
+  border: 4px ridge #ccc;
+  padding: 10px;
+  min-width: 200px;
 }
 
 .movie-row img {
@@ -30,11 +33,25 @@
 }
 
 .movie-row:hover {
-  background-color: lightgray;
   cursor: pointer;
-  border-width: 3px;
+  background-color: #f0f0f0
 }
 
 .movie-title {
   font-weight: bold;
+}
+
+.toggle-button-profile {
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  border: 1px solid lightgray;
+  margin-left: 40px;
+  margin-right: 10px;
+  padding: 8px 11px;
+}
+
+.toggle-button-profile:hover {
+  cursor: pointer;
+  background-color: rgb(224, 0, 0);
+  border-color: gray;
 }

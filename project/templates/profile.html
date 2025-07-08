@@ -2,7 +2,7 @@
 
 {% block head %}
 <title> Movies </title>
-<script type="text/javascript" src="{{ url_for('static', filename='scripts/togglelists.js') }}" defer="defer"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts/togglelists_profilepage.js') }}" defer="defer"></script>
 {% endblock %}
 
 {% block body %}
@@ -12,11 +12,11 @@
     <div class="movie-list">
         <h2>Watchlist</h2>
         {% for movie in user.watchlist %}
-        <a class="movie-row" href="{{ url_for('browse_bp.movie', movie_id=movie.id) }}">
+        <div class="movie-row" id="watchlist-{{ movie.id }}" href="{{ url_for('browse_bp.movie', movie_id=movie.id) }}">
             <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}">
             <div class="movie-title">{{ movie.title }}</div>
-            <button class="toggle-button" data-type="watchlist" data-movie-id="{{ movie.id }}">X</button>
-        </a>
+            <button class="toggle-button-profile" data-type="watchlist" data-movie-id="{{ movie.id }}">X</button>
+        </div>
         {% else %}
         <p>No movies in watchlist.</p>
         {% endfor %}
@@ -25,11 +25,11 @@
     <div class="movie-list">
         <h2>Watched</h2>
         {% for movie in user.watched %}
-        <a class="movie-row" href="{{ url_for('browse_bp.movie', movie_id=movie.id) }}">
+        <div class="movie-row" id="watched-{{ movie.id }}" href="{{ url_for('browse_bp.movie', movie_id=movie.id) }}">
             <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}">
             <div class="movie-title">{{ movie.title }}</div>
-            <button class="toggle-button" data-type="watched" data-movie-id="{{ movie.id }}">X</button>
-        </a>
+            <button class="toggle-button-profile" data-type="watched" data-movie-id="{{ movie.id }}">X</button>
+        </div>
         {% else %}
         <p>No watched movies yet.</p>
         {% endfor %}

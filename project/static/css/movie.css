@@ -19,3 +19,8 @@
 .description-information {
     margin-left: 50px;
 }
+
+.toggle-button-movie:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
