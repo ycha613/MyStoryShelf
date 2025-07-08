@@ -65,6 +65,11 @@ class DatabaseRepository(AbstractRepository):
             scm.session.add(user)
             scm.commit()
 
+    def update_user(self, user: User):
+        with self._session_cm as scm:
+            scm.session.merge(user)
+            scm.commit()
+
     def add_movie(self, movie: Movie):
         if not movie or not isinstance(movie, Movie): return
         with self._session_cm as scm:

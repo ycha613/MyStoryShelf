@@ -13,6 +13,10 @@ class AbstractRepository(ABC):
     @abstractmethod
     def add_user(self, user: User):
         raise NotImplementedError
+    
+    @abstractmethod
+    def update_user(self, user: User):
+        raise NotImplementedError
 
     @abstractmethod
     def add_movie(self):
