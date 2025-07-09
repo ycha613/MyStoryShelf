@@ -31,7 +31,19 @@ class AbstractRepository(ABC):
         raise NotImplementedError
     
     @abstractmethod
-    def get_movies_by_page(self, page_number: int) -> list[Movie]:
+    def get_movies_by_page(self, page_number: int) -> tuple[list[Movie], int]:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def search_movies_by_genre(self, search_term: str, page_number: int) -> tuple[list[Movie], int]:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def search_movies_by_title(self, search_term: str, page_number: int) -> tuple[list[Movie], int]:
+        raise NotImplementedError
+    
+    @abstractmethod
+    def search_movies_by_release_year(self, search_term: str, page_number: int) -> tuple[list[Movie], int]:
         raise NotImplementedError
     
     @abstractmethod

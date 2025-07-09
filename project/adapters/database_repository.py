@@ -1,6 +1,6 @@
 from sqlalchemy import desc, asc
-from sqlalchemy import select
-from sqlalchemy.orm import scoped_session
+from sqlalchemy import select, func
+from sqlalchemy.orm import scoped_session, joinedload
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
 from project.domainmodel.User import User
@@ -100,7 +100,89 @@ class DatabaseRepository(AbstractRepository):
                 Movie._title.asc()
                 ).offset(offset).limit(self._page_size)
             result = scm.session.execute(stmt).scalars().all()
-            return result
+            return result, max_page_number
+        
+    def search_movies_by_genre(self, search_term: str, page_number: int) -> list[Movie]:
+        with self._session_cm as scm:
+            count_stmt = (
+                select(func.count())
+                .select_from(Movie)
+                .join(Movie._genres)
+                .filter(Genre._name.ilike(f"%{search_term}%"))
+            )
+            total_movies = scm.session.execute(count_stmt).scalar()
+            max_page_number = max(1, (total_movies + self._page_size - 1) // self._page_size)
+            if page_number < 1 or page_number > max_page_number:
+                raise ValueError("Page number is invalid.")
+
+            offset = (page_number - 1) * self._page_size
+            stmt = (
+                select(Movie)
+                .join(Movie._genres)
+                .filter(Genre._name.ilike(f"%{search_term}%"))
+                .options(joinedload(Movie._genres))
+                .order_by(Movie._release_year.desc(), Movie._title.asc())
+                .offset(offset)
+                .limit(self._page_size)
+            )
+            result = scm.session.execute(stmt).unique().scalars().all()
+            return result, max_page_number
+
+    def search_movies_by_title(self, search_term: str, page_number: int) -> list[Movie]:
+        with self._session_cm as scm:
+            count_stmt = (
+                select(func.count())
+                .select_from(Movie)
+                .filter(Movie._title.ilike(f"%{search_term}%"))
+            )
+            total_movies = scm.session.execute(count_stmt).scalar()
+            max_page_number = max(1, (total_movies + self._page_size - 1) // self._page_size)
+            if page_number < 1 or page_number > max_page_number:
+                raise ValueError("Page number is invalid.")
+
+            offset = (page_number - 1) * self._page_size
+            stmt = (
+                select(Movie)
+                .filter(Movie._title.ilike(f"%{search_term}%"))
+                .options(joinedload(Movie._genres))
+                .order_by(Movie._release_year.desc(), Movie._title.asc())
+                .offset(offset)
+                .limit(self._page_size)
+            )
+            result = scm.session.execute(stmt).unique().scalars().all()
+            return result, max_page_number
+
+
+    def search_movies_by_release_year(self, search_term: str, page_number: int) -> list[Movie]:
+        try:
+            search_term = int(search_term)
+        except:
+            return []
+        
+        with self._session_cm as scm:
+            count_stmt = (
+                select(func.count())
+                .select_from(Movie)
+                .filter(Movie._release_year == search_term)
+            )
+            total_movies = scm.session.execute(count_stmt).scalar()
+            max_page_number = max(1, (total_movies + self._page_size - 1) // self._page_size)
+            if page_number < 1 or page_number > max_page_number:
+                raise ValueError("Page number is invalid.")
+
+            offset = (page_number - 1) * self._page_size
+            stmt = (
+                select(Movie)
+                .filter(Movie._release_year == search_term)
+                .options(joinedload(Movie._genres))
+                .order_by(Movie._release_year.desc(), Movie._title.asc())
+                .offset(offset)
+                .limit(self._page_size)
+            )
+            result = scm.session.execute(stmt).unique().scalars().all()
+            return result, max_page_number
+
+
         
     def get_movie_by_id(self, movie_id: int) -> Movie:
         movie = None

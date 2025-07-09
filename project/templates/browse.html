@@ -5,9 +5,22 @@
 {% endblock %}
 
 {% block body %}
+<h1> Movies </h1>
 
-<h1> Browse Movies </h1>
-<p>page {{page_id}} out of {{last_page}}</p>
+<form method="GET" class = "search-form">
+    {{ form.hidden_tag() }}
+    <div class = "search-container">
+        {{ form.search_term(class_="search-term")}}
+        {{ form.submit(class_="submit-button")}}
+    </div>
+    <br>
+    <div>
+        {{ form.search_type.label }}
+        {{ form.search_type(class_="dropdown-field") }}
+    </div>
+</form>
+<p>Search by {{search_type}} with key '{{search_term}}'</p>
+<p>page {{page_id}} out of {{max_page}}</p>
 
 <div class="movie-grid">
     {% for movie in movies %}

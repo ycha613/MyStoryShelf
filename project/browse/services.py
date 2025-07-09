@@ -17,3 +17,12 @@ def get_movie_by_id(repo: AbstractRepository, movie_id: int) -> Movie:
 
 def get_user(repo: AbstractRepository, username: str) -> User:
     return repo.get_user(user_name=username)
+
+def search_movies_by_genre(repo: AbstractRepository, search_term: str, page_number: int) -> list[Movie]:
+    return repo.search_movies_by_genre(search_term=search_term, page_number=page_number)
+
+def search_movies_by_title(repo: AbstractRepository, search_term: str, page_number: int) -> list[Movie]:
+    return repo.search_movies_by_title(search_term=search_term, page_number=page_number)
+
+def search_movies_by_release_year(repo: AbstractRepository, search_term: str, page_number: int) -> list[Movie]:
+    return repo.search_movies_by_release_year(search_term=search_term, page_number=page_number)
