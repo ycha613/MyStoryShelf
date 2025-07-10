@@ -42,7 +42,7 @@ class SessionContextManager:
 class DatabaseRepository(AbstractRepository):
     def __init__(self, session_factory):
         self._session_cm = SessionContextManager(session_factory)
-        self._page_size = 20
+        self._page_size = 40
 
     def close_session(self):
         self._session_cm.close_current_session()

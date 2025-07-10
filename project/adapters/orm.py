@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, ForeignKey, Text
+from sqlalchemy import Table, Column, Integer, String, ForeignKey, Text, Index, func
 from sqlalchemy.orm import registry, relationship
 from project.domainmodel.Movie import Movie, Genre
 from project.domainmodel.User import User
@@ -15,6 +15,10 @@ movies_table = Table(
     Column('release_year', Integer),
     Column('runtime', Integer)
 )
+
+Index("idx_movie_id", movies_table.c.movie_id)
+Index("idx_movie_release_title", movies_table.c.release_year.desc(),
+      movies_table.c.title.asc())
 
 genres_table = Table(
     'genres', mapper_registry.metadata,

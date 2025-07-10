@@ -13,8 +13,8 @@ def browse(page_id):
     form = SearchForm(request.args)
     search_type = form.search_type.data or 'title'
     search_term = form.search_term.data or ''
-    movies, max_page = services.get_movies_by_page(repo.repo_instance, page_id)
-    if form.validate() and search_term.strip() != '':
+    print(search_term, search_type)
+    if search_term.strip() != '':
         if search_type == 'title':
             movies, max_page = services.search_movies_by_title(repo.repo_instance, search_term, page_id)
         elif search_type == 'genre':
@@ -22,8 +22,9 @@ def browse(page_id):
         elif search_type == 'release year':
             movies, max_page = services.search_movies_by_release_year(repo.repo_instance, search_term, page_id)
         else:
-            pass
-
+            movies, max_page = services.get_movies_by_page(repo.repo_instance, page_id)
+    else:
+        movies, max_page = services.get_movies_by_page(repo.repo_instance, page_id)
     username = get_username()
     return render_template("browse.html", movies=movies, page_id=page_id, form=form, max_page=max_page,
                             username=username, search_term=search_term, search_type=search_type)
@@ -41,7 +42,7 @@ def movie(movie_id):
 class SearchForm(FlaskForm):
     search_type = SelectField(
         'Search by:',
-        choices=[('release year', 'Release Year'), ('genre','Genre'),('title', 'Title')],
+        choices=[('title', 'Title'), ('genre','Genre'), ('release year', 'Release Year')],
         validators=[DataRequired()]
     )
     search_term = StringField('Enter search term', validators=[DataRequired()])

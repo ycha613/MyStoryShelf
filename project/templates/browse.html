@@ -8,19 +8,19 @@
 <h1> Movies </h1>
 
 <form method="GET" class = "search-form">
-    {{ form.hidden_tag() }}
     <div class = "search-container">
-        {{ form.search_term(class_="search-term")}}
-        {{ form.submit(class_="submit-button")}}
-    </div>
-    <br>
-    <div>
         {{ form.search_type.label }}
         {{ form.search_type(class_="dropdown-field") }}
+        {{ form.search_term(class_="search-term", placeholder="Search")}}
+        {{ form.submit(class_="submit-button")}}
+
     </div>
 </form>
-<p>Search by {{search_type}} with key '{{search_term}}'</p>
-<p>page {{page_id}} out of {{max_page}}</p>
+
+{% if search_term != '' %}
+    <p class="search-text">Search by {{search_type}} '{{search_term}}'</p>
+{% endif %}
+<p class="search-text">page {{page_id}} out of {{max_page}}</p>
 
 <div class="movie-grid">
     {% for movie in movies %}

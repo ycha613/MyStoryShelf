@@ -36,14 +36,17 @@
         <p><b>Release year: </b>{{ movie.release_year }}</p>
 
         <!-- add / remove watched / watchlist-->
-        <button class="toggle-button-movie" data-type="watchlist" data-movie-id="{{ movie.id }}">
-        {% if movie in user.watchlist %}Remove from Watchlist{% else %}Add to Watchlist{% endif %}
-        </button>
+         {% if username %}
+            <button class="toggle-button-movie" data-type="watchlist" data-movie-id="{{ movie.id }}">
+            {% if movie in user.watchlist %}Remove from Watchlist{% else %}Add to Watchlist{% endif %}
+            </button>
 
-        <button class="toggle-button-movie" data-type="watched" data-movie-id="{{ movie.id }}">
-        {% if movie in user.watched %}Remove from Watched{% else %}Add to Watched{% endif %}
-        </button>
-
+            <button class="toggle-button-movie" data-type="watched" data-movie-id="{{ movie.id }}">
+            {% if movie in user.watched %}Remove from Watched{% else %}Add to Watched{% endif %}
+            </button>
+        {% else %}
+            <p> Log in to add to watchlist / watched </p>
+        {% endif %}
     </div>
 </div>
 

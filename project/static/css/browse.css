@@ -1,10 +1,10 @@
 .movie-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     margin: 10px 60px;
-    column-gap: 40px;
-    row-gap: 25px;
-    padding: 10px;
+    column-gap: 10px;
+    row-gap: 15px;
+    padding: 8px;
 }
 
 .movie-grid-display {
@@ -26,12 +26,86 @@
 
 .movie-poster {
     border-radius: 2px;
-    width: 200px;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 .movie-title {
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
     width: 100%;
     text-align: center;
+}
+
+.description-link {
+    text-decoration: none;
+    color: black;
+}
+
+
+.search-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    padding: 15px;
+    gap: 2px;
+}
+
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 80%;
+}
+
+
+.search-term {
+    outline: none;
+    border: none;
+    flex: 1;
+    border-radius: 10px 0 0 10px;
+    width: 600px;
+    height: 50px;
+    font-size: 18px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+
+.submit-button {
+    border: none;
+    background-color: white;
+    color: black;
+    height: 50px;
+    font-size: 18px;
+    padding: 0 20px;
+    border-radius: 0 10px 10px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submit-button:hover {
+    background-color: lightgray;
+}
+
+.dropdown-field {
+    border: 1px;
+    border-radius: 10px;
+    height: 30px;
+    font-size: 18px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    background-color: white;
+    color: black;
+    width: 150px;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.search-text {
+    margin-bottom: 5px;
 }
