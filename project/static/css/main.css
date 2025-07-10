@@ -60,3 +60,7 @@ body {
     cursor: pointer;
     font-weight: 500;
 }
+
+footer {
+    margin-top: 40px;
+}

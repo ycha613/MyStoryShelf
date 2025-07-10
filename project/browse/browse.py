@@ -8,12 +8,18 @@ from project.helpers import get_username
 
 browse_blueprint = Blueprint("browse_bp", __name__)
 
-@browse_blueprint.route("/movies/<int:page_id>", methods=["GET"])
-def browse(page_id):
+@browse_blueprint.route("/movies", methods=["GET"])
+def browse():
+    try:
+        page_id = int(request.args.get("page_id", 1))
+        if page_id < 1:
+            page_id = 1
+    except:
+        page_id = 1
+    
     form = SearchForm(request.args)
     search_type = form.search_type.data or 'title'
     search_term = form.search_term.data or ''
-    print(search_term, search_type)
     if search_term.strip() != '':
         if search_type == 'title':
             movies, max_page = services.search_movies_by_title(repo.repo_instance, search_term, page_id)

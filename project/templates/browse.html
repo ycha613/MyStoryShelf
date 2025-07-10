@@ -22,6 +22,22 @@
 {% endif %}
 <p class="search-text">page {{page_id}} out of {{max_page}}</p>
 
+<div class="pagination-buttons">
+    {% if page_id > 1 %}
+        <a href="{{ url_for('browse_bp.browse', page_id=page_id-1, search_term=search_term, search_type=search_type) }}" class="page-btn">Prev</a>
+    {% endif %}
+    {% if page_id < max_page %}
+        <a href="{{ url_for('browse_bp.browse', page_id=page_id+1, search_term=search_term, search_type=search_type) }}" class="page-btn">Next</a>
+    {% endif %}
+
+    <form method="GET" action="{{ url_for('browse_bp.browse') }}" class="page-jump-form">
+        <input type="number" id="page-input" name="page_id" min="1" max="{{ max_page }}" value="{{ page_id }}" required>
+        <input type="hidden" name="search_term" value="{{ search_term }}">
+        <input type="hidden" name="search_type" value="{{ search_type }}">
+        <button type="submit">Go</button>
+    </form>
+</div>
+
 <div class="movie-grid">
     {% for movie in movies %}
     <div class="movie-grid-display">
@@ -31,6 +47,22 @@
         </a>
     </div>
     {% endfor %}
+</div>
+
+<div class="pagination-buttons">
+    {% if page_id > 1 %}
+        <a href="{{ url_for('browse_bp.browse', page_id=page_id-1, search_term=search_term, search_type=search_type) }}" class="page-btn">Prev</a>
+    {% endif %}
+    {% if page_id < max_page %}
+        <a href="{{ url_for('browse_bp.browse', page_id=page_id+1, search_term=search_term, search_type=search_type) }}" class="page-btn">Next</a>
+    {% endif %}
+
+    <form method="GET" action="{{ url_for('browse_bp.browse') }}" class="page-jump-form">
+        <input type="number" id="page-input" name="page_id" min="1" max="{{ max_page }}" value="{{ page_id }}" required>
+        <input type="hidden" name="search_term" value="{{ search_term }}">
+        <input type="hidden" name="search_type" value="{{ search_type }}">
+        <button type="submit">Go</button>
+    </form>
 </div>
 
 {% endblock %}
