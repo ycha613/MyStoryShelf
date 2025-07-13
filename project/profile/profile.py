@@ -11,7 +11,7 @@ def profile(username):
     # get user object, make sure watched and watchlist eagerly loaded
     user = services.get_user(repo=repo.repo_instance, username=username)
 
-    return render_template("profile.html", user=user, username=username)
+    return render_template("profile.html", user=user, username=username, notes=user.notes)
 
 
 @profile_blueprint.route("/toggle_watchlist/<int:movie_id>", methods=["POST"])

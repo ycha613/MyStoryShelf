@@ -26,3 +26,6 @@ def search_movies_by_title(repo: AbstractRepository, search_term: str, page_numb
 
 def search_movies_by_release_year(repo: AbstractRepository, search_term: str, page_number: int) -> list[Movie]:
     return repo.search_movies_by_release_year(search_term=search_term, page_number=page_number)
+
+def add_movie_note(repo: AbstractRepository, movie: Movie, user: User, note: str):
+    repo.add_movie_note(movie=movie, user=user, note=note)

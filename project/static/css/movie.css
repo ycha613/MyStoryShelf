@@ -31,3 +31,29 @@
     cursor: pointer;
     background-color: lightgray;
 }
+
+
+.note-grid {
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.note-display {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    padding: 8px;
+}
+
+.note-display p {
+    font-size: 12px;
+    margin: none;
+    line-height: 0.5;
+}
+
+.note-title {
+    font-weight: 600;
+    margin-bottom: 20px;
+}

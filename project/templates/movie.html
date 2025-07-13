@@ -50,4 +50,28 @@
     </div>
 </div>
 
+{% if username %}
+<div class="noteform">
+    <p class="noteform-title">Add a new note for this movie</p>
+    <form method="POST" action="">
+        {{form.hidden_tag()}}
+        {{form.note(rows=5, cols=60)}}
+        {% for error in form.note.errors %}
+            <p class="noteform-errors">{{error}}</p>
+        {% endfor %}
+        <p class="noteform-submit">{{form.submit()}}</p>
+    </form>
+</div>
+
+<div class="note-grid">
+    {% for movie_note in notes %}
+        <div class="note-display">
+            <p class="note-title">Note on {{movie.title}} by {{username}}</p>
+            <p>{{movie_note.note}}</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+
 {% endblock %}

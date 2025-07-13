@@ -32,6 +32,7 @@ class User():
         self._password = password
         self._watched = list()
         self._watchlist = list()
+        self._notes = list()
         
     @property
     def username(self) -> str:
@@ -49,6 +50,10 @@ class User():
     def watchlist(self) -> list[Movie]:
         return self._watchlist.copy()
     
+    @property
+    def notes(self) -> list[MovieNote]:
+        return self._notes.copy()
+    
     def add_watched(self, movie: Movie):
         if movie not in self._watched:
             self._watched.append(movie)
@@ -64,6 +69,12 @@ class User():
     def remove_watchlist(self, movie: Movie):
         if movie in self._watchlist:
             self._watchlist.remove(movie)
+
+    def add_notes(self, note: MovieNote):
+        self._notes.append(note)
+    
+    def remove_notes(self, note: MovieNote):
+        self._notes.remove(note)
     
     def __repr__(self) -> str:
         return f"<User: {self.username}>"
@@ -80,3 +91,38 @@ class User():
     
     def __hash__(self) -> int:
         return hash(self.username)
+    
+
+class MovieNote:
+    def __init__(self, movie: Movie, user: User, note: str):
+        self._movie = movie
+        self._user = user
+        self._note = note
+
+    @property
+    def movie(self) -> Movie:
+        return self._movie
+    
+    @property
+    def user(self) -> User:
+        return self._user
+    
+    @property
+    def note(self) -> str:
+        return self._note
+    
+    @note.setter
+    def note(self, new_note: str):
+        self._note = new_note
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, MovieNote):
+            return False
+        return self._movie == other._movie and self._user == other._user and self._note == other._note
+    
+    def __hash__(self) -> int:
+        return hash(self._movie + self._user + self._note)
+    
+    def __repr__(self) -> str:
+        return f"<MovieNote by {self.user.username} on {self.movie.title}>"
+        

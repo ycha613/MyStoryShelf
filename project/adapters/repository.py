@@ -49,3 +49,7 @@ class AbstractRepository(ABC):
     @abstractmethod
     def get_movie_by_id(self, movie_id: int) -> Movie:
         raise NotImplementedError
+    
+    @abstractmethod
+    def add_movie_note(self, movie: Movie, user: User, note: str):
+        raise NotImplementedError

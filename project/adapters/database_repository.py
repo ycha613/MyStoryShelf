@@ -3,7 +3,7 @@ from sqlalchemy import select, func
 from sqlalchemy.orm import scoped_session, joinedload
 from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 
-from project.domainmodel.User import User
+from project.domainmodel.User import User, MovieNote
 from project.domainmodel.Movie import Movie, Genre
 from project.adapters.repository import AbstractRepository
 from project.adapters.csv_reader import MovieCSVReader
@@ -183,7 +183,6 @@ class DatabaseRepository(AbstractRepository):
             return result, max_page_number
 
 
-        
     def get_movie_by_id(self, movie_id: int) -> Movie:
         movie = None
         try:
@@ -191,8 +190,13 @@ class DatabaseRepository(AbstractRepository):
         except NoResultFound:
             pass
         return movie
-
-
+    
+    def add_movie_note(self, movie: Movie, user: User, note: str):
+        new_note = MovieNote(movie=movie, user=user, note=note)
+        user.add_notes(new_note)
+        with self._session_cm as scm:
+            scm.session.add(new_note)
+            scm.commit()
 
 
 def database_repository_populate(csvreader: MovieCSVReader, repo: DatabaseRepository):

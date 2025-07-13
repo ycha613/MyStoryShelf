@@ -36,4 +36,14 @@
     </div>
 </div>
 
+<h4>My Movie Notes</h1>
+<div class="note-grid">
+{% for movie_note in notes %}
+    <div class="note-display">
+        <p class="note-title">Note on {{movie_note.movie.title}} by {{username}}</p>
+        <p>{{movie_note.note}}</p>
+    </div>
+{% endfor %}
+</div>
+
 {% endblock %}

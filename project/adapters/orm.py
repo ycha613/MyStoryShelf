@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, ForeignKey, Text, Index, func
 from sqlalchemy.orm import registry, relationship
 from project.domainmodel.Movie import Movie, Genre
-from project.domainmodel.User import User
+from project.domainmodel.User import User, MovieNote
 
 mapper_registry = registry()
 
@@ -52,6 +52,14 @@ watchlist_table = Table(
     Column('movie_id', Integer, ForeignKey('movies.movie_id'))
 )
 
+movienotes_table = Table(
+    'movienotes', mapper_registry.metadata,
+    Column('id', Integer, primary_key=True, autoincrement=True),
+    Column('movie_id', Integer, ForeignKey('movies.movie_id')),
+    Column('user_id', Integer, ForeignKey('users.user_id')),
+    Column('note', Text)
+)
+
 
 def map_model_to_tables():
     mapper_registry.map_imperatively(Movie, movies_table, properties={
@@ -74,6 +82,19 @@ def map_model_to_tables():
         '_username': users_table.c.username,
         '_password': users_table.c.password,
         '_watched': relationship(Movie, secondary=watched_table),
-        '_watchlist': relationship(Movie, secondary=watchlist_table)
+        '_watchlist': relationship(Movie, secondary=watchlist_table),
+        '_notes': relationship(
+            MovieNote,
+            back_populates='_user',
+            cascade='all, delete-orphan'
+        )
+    })
 
+    mapper_registry.map_imperatively(MovieNote, movienotes_table, properties={
+        '_movie': relationship(
+            Movie,
+            primaryjoin=movienotes_table.c.movie_id == Movie._id
+        ),
+        '_user': relationship(User, back_populates='_notes'),
+        '_note': movienotes_table.c.note
     })
