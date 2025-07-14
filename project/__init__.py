@@ -28,7 +28,7 @@ def create_app():
     # link database to repo
     database_uri = app.config["SQLALCHEMY_DATABASE_URI"]
     database_echo = app.config["SQLALCHEMY_ECHO"]
-    database_engine = create_engine(database_uri, connect_args={"check_same_thread": False},
+    database_engine = create_engine(database_uri, #connect_args={"check_same_thread": False},
                                         poolclass=NullPool, echo=database_echo)
     session_factory = sessionmaker(autocommit=False, autoflush=True, bind=database_engine)
     repo.repo_instance = DatabaseRepository(session_factory)

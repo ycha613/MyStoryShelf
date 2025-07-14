@@ -10,6 +10,7 @@ class Config:
     SECRET_KEY = environ.get("SECRET_KEY")
 
     # Database
+    #print(environ.get("SQLALCHEMY_DATABASE_URI"))
     SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
     echo_string = environ.get("SQLALCHEMY_ECHO")
     SQLALCHEMY_ECHO = False
