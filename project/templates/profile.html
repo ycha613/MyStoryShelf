@@ -13,7 +13,7 @@
         <h2>Watchlist</h2>
         {% for movie in user.watchlist %}
         <div class="movie-row" id="watchlist-{{ movie.id }}" href="{{ url_for('browse_bp.movie', movie_id=movie.id) }}">
-            <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}">
+            <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}" onerror="this.onerror=null;this.src='/static/images/default_poster.png';">
             <div class="movie-title">{{ movie.title }}</div>
             <button class="toggle-button-profile" data-type="watchlist" data-movie-id="{{ movie.id }}">X</button>
         </div>
@@ -26,7 +26,7 @@
         <h2>Watched</h2>
         {% for movie in user.watched %}
         <div class="movie-row" id="watched-{{ movie.id }}" href="{{ url_for('browse_bp.movie', movie_id=movie.id) }}">
-            <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}">
+            <img src="{{ movie.poster_link }}" alt="Poster of {{ movie.title }}" onerror="this.onerror=null;this.src='/static/images/default_poster.png';">
             <div class="movie-title">{{ movie.title }}</div>
             <button class="toggle-button-profile" data-type="watched" data-movie-id="{{ movie.id }}">X</button>
         </div>
