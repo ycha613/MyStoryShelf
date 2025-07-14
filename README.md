@@ -37,5 +37,20 @@ $ python -m pytest -v tests
 
 ## Configuration
 
+The *project directory/.env* file contains variable settings. They are set with appropriate values.
+
+* `FLASK_APP`: Entry point of the application (should always be `wsgi.py`).
+* `FLASK_ENV`: The environment in which to run the application (either `development` or `production`).
+* `SECRET_KEY`: Secret key used to encrypt session data.
+* `TESTING`: Set to False for running the application. Overridden and set to True automatically when testing the application.
+* `WTF_CSRF_SECRET_KEY`: Secret key used by the WTForm library.
+* `SQLALCHEMY_DATABASE_URI`: Database URI for connection ("sqlite:///storyshelf.db" for sqlite) or ("mysql+pymysql://root:password@localhost/mystoryshelf" for MySQL)
+
 ## Data sources
+
+The data files are downloaded from: 
+
+https://www.kaggle.com/datasets/gsimonx37/letterboxd?select=movies.csv
+
+Used movies.csv, posters.csv and genres.csv
 
