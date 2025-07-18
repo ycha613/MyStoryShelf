@@ -70,10 +70,10 @@ class User():
         if movie in self._watchlist:
             self._watchlist.remove(movie)
 
-    def add_notes(self, note: MovieNote):
+    def add_note(self, note: MovieNote):
         self._notes.append(note)
     
-    def remove_notes(self, note: MovieNote):
+    def remove_note(self, note: MovieNote):
         self._notes.remove(note)
     
     def __repr__(self) -> str:

@@ -13,6 +13,9 @@ def test_user_initialisation():
     assert repr(user1) == "<User: john>"
     assert user1.username == "john"
     assert user1.password == "Password1"
+    assert user1.watchlist == []
+    assert user1.watched == []
+    assert user1.notes == []
 
     with pytest.raises(TypeError):
         user2 = User(1, "Password1")
@@ -54,6 +57,29 @@ def test_user_hash():
     user_set.discard(user1)
     assert repr(sorted(user_set)) == "[<User: brian>, <User: chris>]"
 
+def test_user_watchlist(my_movie):
+    user1 = User("aaron", "Password1")
+    assert user1.watchlist == []
+    user1.add_watchlist(my_movie)
+    assert user1.watchlist == [my_movie]
+    user1.remove_watchlist(my_movie)
+    assert user1.watchlist == []
+
+def test_user_watched(my_movie):
+    user1 = User("aaron", "Password1")
+    assert user1.watched == []
+    user1.add_watched(my_movie)
+    assert user1.watched == [my_movie]
+    user1.remove_watched(my_movie)
+    assert user1.watched == []
+
+def test_user_notes(my_movienote):
+    user1 = User("aaron", "Password1")
+    assert user1.notes == []
+    user1.add_note(my_movienote)
+    assert user1.notes == [my_movienote]
+    user1.remove_note(my_movienote)
+    assert user1.notes == []
 
 # Genre class unit tests
 
@@ -104,6 +130,7 @@ def test_movie_initialisation():
     assert movie1.release_year == 1960
     assert movie1.runtime == -1
     assert movie1.description == ""
+    assert movie1.genres == []
 
     with pytest.raises(TypeError):
         movie1 = Movie(id=10101, title=3, release_year=1960)
@@ -141,6 +168,12 @@ def test_movie_hash():
     movies_set.add(movie2)
     movies_set.add(movie3)
     assert len(movies_set) == 3
+
+def test_movie_add_genre(my_genre):
+    movie1 = Movie(id=10101, title="Psycho", release_year=1960)
+    assert movie1.genres == []
+    movie1.add_genre(my_genre)
+    assert movie1.genres == [my_genre]
 
 
 # MovieNote class unit tests

@@ -44,7 +44,7 @@ The *project directory/.env* file contains variable settings. They are set with 
 * `SECRET_KEY`: Secret key used to encrypt session data.
 * `TESTING`: Set to False for running the application. Overridden and set to True automatically when testing the application.
 * `WTF_CSRF_SECRET_KEY`: Secret key used by the WTForm library.
-* `SQLALCHEMY_DATABASE_URI`: Database URI for connection ("sqlite:///storyshelf.db" for sqlite) or ("mysql+pymysql://root:password@localhost/mystoryshelf" for MySQL)
+* `SQLALCHEMY_DATABASE_URI`: Database URI for connection ("sqlite:///storyshelf.db" for sqlite) or ("mysql+pymysql://root:password@localhost/mystoryshelf" for MySQL), default is sqlite so you do not have to set up MySQL on your machine if not already installed.
 
 ## Data sources
 

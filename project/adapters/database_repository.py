@@ -193,7 +193,7 @@ class DatabaseRepository(AbstractRepository):
     
     def add_movie_note(self, movie: Movie, user: User, note: str):
         new_note = MovieNote(movie=movie, user=user, note=note)
-        user.add_notes(new_note)
+        user.add_note(new_note)
         with self._session_cm as scm:
             scm.session.add(new_note)
             scm.commit()
