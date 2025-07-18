@@ -1,6 +1,6 @@
 import pytest
-from project.domainmodel.User import User
-from project.domainmodel.Media import Movie, Book, Show
+from project.domainmodel.User import User, MovieNote
+from project.domainmodel.Movie import Movie, Genre
 
 @pytest.fixture
 def my_user():
@@ -8,12 +8,4 @@ def my_user():
 
 @pytest.fixture
 def my_movie():
-    return Movie(title="Psycho", user=my_user, director="Alfred Hitchock")
-
-@pytest.fixture
-def my_show():
-    return Show(title="Breaking Bad", user=my_user, season=1)
-
-@pytest.fixture
-def my_book():
-    return Book(title="Moby Dick", user=my_user, author="Herman Melville")
+    return Movie(id=10101, title="Psycho", release_year=1960)

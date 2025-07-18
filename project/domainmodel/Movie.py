@@ -22,6 +22,9 @@ class Director:
 
 class Genre:
     def __init__(self, id, name):
+        if not isinstance(id, int):
+            raise TypeError("id must be an integer")
+        validate_string(name)
         self._id = id
         self._name = name
 
@@ -32,12 +35,30 @@ class Genre:
     @property
     def name(self) -> str:
         return self._name
+    
+    def __repr__(self):
+        return f"<Genre {self._id}: {self._name}>"
+    
+    def __eq__(self, other):
+        if not isinstance(other, Genre):
+            return False
+        return self._id == other._id
+    
+    def __lt__(self, other):
+        if not isinstance(other, Genre):
+            return False
+        return self._name < other._name
+    
+    def __hash__(self):
+        return hash(self._name + str(self._id))
 
 
 class Movie:
     def __init__(self, id: int, title: str,
                  release_year: int = None, description: str = "", 
                  runtime: int = -1):
+        if not isinstance(id, int):
+            raise TypeError("id must be an integer")
         self._id = id
         validate_string(title)
         self._title = title
@@ -86,10 +107,10 @@ class Movie:
     def __eq__(self, other) -> bool:
         if not isinstance(other, Movie):
             return False
-        return self._title == other._title
+        return self._id == other._id
     
     def __hash__(self) -> int:
-        return hash(self._title + self.__class__.__name__)
+        return hash(self._title + str(self._id))
     
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__}: {self.title}>"

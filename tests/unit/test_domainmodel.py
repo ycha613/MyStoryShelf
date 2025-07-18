@@ -1,6 +1,6 @@
 import pytest
-from project.domainmodel.User import User
-from project.domainmodel.Media import Book, Movie, Show
+from project.domainmodel.User import User, MovieNote
+from project.domainmodel.Movie import Movie, Genre
 
 """
 Unit tests for the domain model of the web application
@@ -55,174 +55,125 @@ def test_user_hash():
     assert repr(sorted(user_set)) == "[<User: brian>, <User: chris>]"
 
 
-# Book class unit tests
+# Genre class unit tests
 
-def test_book_initialisation(my_user):
-    book1 = Book(title="Moby Dick", user=my_user, author="Herman Melville")
-    assert repr(book1) == "<Book: Moby Dick>"
-    assert book1.title == "Moby Dick"
-    assert book1.author == "Herman Melville"
-
+def test_genre_initialisation():
+    genre1 = Genre(id=1, name="Comedy")
+    assert repr(genre1) == "<Genre 1: Comedy>"
+    assert genre1.name == "Comedy"
+    assert genre1.id == 1
     with pytest.raises(TypeError):
-        book2 = Book(title=3, user=my_user, author="Herman Melville")
-    with pytest.raises(TypeError):
-        book2 = Book(title="Moby Dick 2", user=2, author="Herman Melville")
-    with pytest.raises(TypeError):
-        book2 = Book(title="Moby Dick 2", user=my_user, author=2)
+        genre2 = Genre(2, 300)
 
-    with pytest.raises(ValueError):
-        book2 = Book(title="", user=my_user, author="Herman Melville")
-    with pytest.raises(ValueError):
-        book2 = Book(title="Moby Dick 2", user=my_user, author="")
+def test_genre_eq():
+    genre1 = Genre(id=1, name="Comedy")
+    genre2 = Genre(id=2, name="Action")
+    genre3 = Genre(id=3, name="Indie")
+    assert genre1 == genre1
+    assert genre1 != genre2
+    assert genre2 != genre3
 
-    book2 = Book(title="moby DICK", user=my_user, author="herman MELVILLE")
-    assert book2.title == "Moby Dick"
-    assert book2.author == "Herman Melville"
+def test_genre_lt():
+    genre1 = Genre(id=1, name="Comedy")
+    genre2 = Genre(id=2, name="Action")
+    genre3 = Genre(id=3, name="Indie")
+    assert genre1 > genre2
+    assert genre1 < genre3
+    assert genre2 < genre3
+    genre_list = [genre1, genre2, genre3]
+    assert sorted(genre_list) == [genre2, genre1, genre3]
 
-def test_book_eq(my_user):
-    book1 = Book(title="Moby Dick", user=my_user, author="Herman Melville")
-    book2 = Book(title="Moby Dick", user=my_user, author="Herman Melville")
-    book3 = Book(title="Neverland", user=my_user, author="Herman Melville")
-    book4 = Book(title="Moby Dick", user=my_user, author="John Richards")
-    assert book1 == book2
-    assert book1 != book3
-    assert book1 != book4
-    assert book4 == book4
-
-def test_book_lt(my_user):
-    book1 = Book(title="Moby Dick", user=my_user, author="Herman Melville")
-    book2 = Book(title="Neverland", user=my_user, author="Herman Melville")
-    book3 = Book(title="Orpheus", user=my_user, author="Herman Melville")
-    books_list = [book3, book2, book1]
-    assert book1 < book2 < book3
-    assert sorted(books_list) == [book1, book2, book3]
-
-
-def test_book_hash(my_user):
-    book1 = Book(title="Moby Dick", user=my_user, author="Herman Melville")
-    book2 = Book(title="Neverland", user=my_user, author="Herman Melville")
-    book3 = Book(title="Orpheus", user=my_user, author="Herman Melville")
-    books_set = set()
-    books_set.add(book1)
-    books_set.add(book2)
-    books_set.add(book3)
-
-    assert len(books_set) == 3
-    assert repr(sorted(books_set)) == "[<Book: Moby Dick>, <Book: Neverland>, <Book: Orpheus>]"
-    books_set.discard(book1)
-    assert repr(sorted(books_set)) == "[<Book: Neverland>, <Book: Orpheus>]"
+def test_genre_hash():
+    genre1 = Genre(id=1, name="Comedy")
+    genre2 = Genre(id=2, name="Action")
+    genre3 = Genre(id=3, name="Indie")
+    genre_set = set()
+    genre_set.add(genre1)
+    genre_set.add(genre2)
+    genre_set.add(genre3)
+    assert len(genre_set) == 3
 
 
 # Movie class unit tests
 
-def test_movie_initialisation(my_user):
-    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
+def test_movie_initialisation():
+    movie1 = Movie(id=10101, title="Psycho", release_year=1960)
     assert repr(movie1) == "<Movie: Psycho>"
+    assert movie1.id == 10101
     assert movie1.title == "Psycho"
-    assert movie1.director == "Alfred Hitchcock"
+    assert movie1.release_year == 1960
+    assert movie1.runtime == -1
+    assert movie1.description == ""
 
     with pytest.raises(TypeError):
-        movie2 = Movie(title=3, user=my_user, director="Alfred Hitchcock")
+        movie1 = Movie(id=10101, title=3, release_year=1960)
     with pytest.raises(TypeError):
-        movie2 = Movie(title="Psycho 2", user=2, director="Alfred Hitchcock")
-    with pytest.raises(TypeError):
-        movie2 = Movie(title="Psycho 2", user=my_user, director=2)
+        movie1 = Movie(id="10101", title="Psycho", release_year=1960)
 
     with pytest.raises(ValueError):
-        movie2 = Movie(title="", user=my_user, director="Alfred Hitchcock")
-    with pytest.raises(ValueError):
-        movie2 = Movie(title="Psycho 2", user=my_user, director="")
+        movie1 = Movie(id=10101, title="", release_year=1960)
 
-    movie2 = Movie(title="pSycHO", user=my_user, director="alfred HITCHCOCK")
-    assert movie2.title == "Psycho"
-    assert movie2.director == "Alfred Hitchcock"
-
-def test_movie_eq(my_user):
-    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
-    movie2 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
-    movie3 = Movie(title="Vertigo", user=my_user, director="Alfred Hitchcock")
-    movie4 = Movie(title="Psycho", user=my_user, director="John Richards")
+def test_movie_eq():
+    movie1 = Movie(id=10101, title="Psycho", release_year=1960)
+    movie2 = Movie(id=10101, title="Psycho", release_year=1960)
+    movie3 = Movie(id=10102, title="Vertigo", release_year=1950)
+    movie4 = Movie(id=10101, title="Vertigo", release_year=1965)
     assert movie1 == movie2
     assert movie1 != movie3
-    assert movie1 != movie4
+    assert movie1 == movie4
     assert movie4 == movie4
 
-def test_movie_lt(my_user):
-    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
-    movie2 = Movie(title="Stage Fright", user=my_user, director="Alfred Hitchcock")
-    movie3 = Movie(title="Vertigo", user=my_user, director="Alfred Hitchcock")
+def test_movie_lt():
+    movie1 = Movie(id=10101, title="Psycho", release_year=1960)
+    movie2 = Movie(id=10102, title="Stage Fright", release_year=1960)
+    movie3 = Movie(id=10103, title="Vertigo", release_year=1960)
     movies_list = [movie3, movie2, movie1]
     assert movie1 < movie2 < movie3
     assert sorted(movies_list) == [movie1, movie2, movie3]
 
 
-def test_movie_hash(my_user):
-    movie1 = Movie(title="Psycho", user=my_user, director="Alfred Hitchcock")
-    movie2 = Movie(title="Stage Fright", user=my_user, director="Alfred Hitchcock")
-    movie3 = Movie(title="Vertigo", user=my_user, director="Alfred Hitchcock")
+def test_movie_hash():
+    movie1 = Movie(id=10101, title="Psycho", release_year=1960)
+    movie2 = Movie(id=10102, title="Stage Fright", release_year=1960)
+    movie3 = Movie(id=10103, title="Vertigo", release_year=1960)
     movies_set = set()
     movies_set.add(movie1)
     movies_set.add(movie2)
     movies_set.add(movie3)
-
     assert len(movies_set) == 3
-    assert repr(sorted(movies_set)) == "[<Movie: Psycho>, <Movie: Stage Fright>, <Movie: Vertigo>]"
-    movies_set.discard(movie1)
-    assert repr(sorted(movies_set)) == "[<Movie: Stage Fright>, <Movie: Vertigo>]"
 
 
-# Show class unit tests
+# MovieNote class unit tests
 
-def test_show_initialisation(my_user):
-    show1 = Show(title="Breaking Bad", user=my_user, season=1)
-    assert repr(show1) == "<Show: Breaking Bad>"
-    assert show1.title == "Breaking Bad"
-    assert show1.season == 1
-
+def test_movienote_initialisation(my_movie, my_user):
+    movienote = MovieNote(movie=my_movie, user=my_user, note="test")
+    assert repr(movienote) == "<MovieNote by john on Psycho>"
     with pytest.raises(TypeError):
-        show2 = Show(title=3, user=my_user, season=1)
+        movienote = MovieNote(movie="Psycho", user=my_user, note="test")
     with pytest.raises(TypeError):
-        show2 = Show(title="Breaking Bad", user=2, season=1)
-    with pytest.raises(TypeError):
-        show2 = Show(title="Breaking Bad", user=my_user, season="")
+        movienote = MovieNote(movie=my_movie, user="john", note="test")
 
-    with pytest.raises(ValueError):
-        show2 = Show(title="", user=my_user, season=1)
-    with pytest.raises(ValueError):
-        show2 = Show(title="Breaking Bad", user=my_user, season=0)
+def test_movienote_eq(my_movie, my_user):
+    movienote1 = MovieNote(movie=my_movie, user=my_user, note="test")
+    movienote2 = MovieNote(movie=my_movie, user=my_user, note="test2")
+    assert movienote1 == movienote1
+    assert movienote1 != movienote2
 
-    show2 = Show(title="breaking BAD", user=my_user, season=1)
-    assert show2.title == "Breaking Bad"
+def test_movienote_lt(my_movie, my_user):
+    movie2 = Movie(id=10102, title="Stage Fright", release_year=1960)
+    movienote1 = MovieNote(movie=my_movie, user=my_user, note="test")
+    movienote2 = MovieNote(movie=my_movie, user=my_user, note="test2")
+    movienote3 = MovieNote(movie=movie2, user=my_user, note="test")
+    assert movienote1 < movienote2
+    assert movienote1 < movienote3
+    assert movienote2 < movienote3
 
-def test_show_eq(my_user):
-    show1 = Show(title="Breaking Bad", user=my_user, season=1)
-    show2 = Show(title="Breaking Bad", user=my_user, season=1)
-    show3 = Show(title="Breaking Bad", user=my_user, season=2)
-    show4 = Show(title="Game Of Thrones", user=my_user, season=1)
-    assert show1 == show2
-    assert show1 != show3
-    assert show1 != show4
-    assert show4 == show4
-
-def test_show_lt(my_user):
-    show1 = Show(title="Breaking Bad", user=my_user, season=1)
-    show2 = Show(title="Breaking Bad", user=my_user, season=2)
-    show3 = Show(title="Game Of Thrones", user=my_user, season=1)
-    shows_list = [show2, show3, show1]
-    assert show1 < show2 < show3
-    assert sorted(shows_list) == [show1, show2, show3]
-
-
-def test_show_hash(my_user):
-    show1 = Show(title="Breaking Bad", user=my_user, season=1)
-    show2 = Show(title="Breaking Bad", user=my_user, season=2)
-    show3 = Show(title="Game Of Thrones", user=my_user, season=1)
-    shows_set = set()
-    shows_set.add(show1)
-    shows_set.add(show2)
-    shows_set.add(show3)
-
-    assert len(shows_set) == 3
-    assert repr(sorted(shows_set)) == "[<Show: Breaking Bad>, <Show: Breaking Bad>, <Show: Game Of Thrones>]"
-    shows_set.discard(show1)
-    assert repr(sorted(shows_set)) == "[<Show: Breaking Bad>, <Show: Game Of Thrones>]"
+def test_movienote_hash(my_movie, my_user):
+    movienote1 = MovieNote(movie=my_movie, user=my_user, note="test")
+    movienote2 = MovieNote(movie=my_movie, user=my_user, note="test2")
+    movienote3 = MovieNote(movie=my_movie, user=my_user, note="test3")
+    movienotes_set = set()
+    movienotes_set.add(movienote1)
+    movienotes_set.add(movienote2)
+    movienotes_set.add(movienote3)
+    assert len(movienotes_set) == 3

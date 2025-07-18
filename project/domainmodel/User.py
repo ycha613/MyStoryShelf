@@ -95,7 +95,11 @@ class User():
 
 class MovieNote:
     def __init__(self, movie: Movie, user: User, note: str):
+        if not isinstance(movie, Movie):
+            raise TypeError("the movie must be a movie object")
         self._movie = movie
+        if not isinstance(user, User):
+            raise TypeError("the user must be a user object")
         self._user = user
         self._note = note
 
@@ -120,8 +124,15 @@ class MovieNote:
             return False
         return self._movie == other._movie and self._user == other._user and self._note == other._note
     
+    def __lt__(self, other) -> bool:
+        if not isinstance(other, MovieNote):
+            return False
+        if self._movie == other._movie:
+            return self._note < other._note
+        return self._movie < other._movie
+    
     def __hash__(self) -> int:
-        return hash(self._movie + self._user + self._note)
+        return hash(repr(self._movie) + repr(self._user) + self._note)
     
     def __repr__(self) -> str:
         return f"<MovieNote by {self.user.username} on {self.movie.title}>"
