@@ -17,12 +17,18 @@ movies_filename = 'project/adapters/data/movies/movies.csv'
 genres_filename = 'project/adapters/data/movies/genres.csv'
 posters_filename = 'project/adapters/data/movies/posters.csv'
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(
         __name__, 
         template_folder=os.path.join(os.path.dirname(__file__), "templates")
     )
     app.config.from_object('config.Config')
+    if test_config is not None:
+        app.config.from_mapping(test_config)
+        csv_reader = app.config['TEST_CSV_READER']
+    else:
+        csv_reader = MovieCSVReader(movies_file=movies_filename, genres_file=genres_filename,
+                                    posters_file=posters_filename)
 
 
     # link database to repo
@@ -35,7 +41,7 @@ def create_app():
 
     # create database if not created, map domain model to tables
     insp = inspect(database_engine)
-    if len(insp.get_table_names()) == 0:
+    if len(insp.get_table_names()) == 0 or app.config['TESTING'] == 'True':
         print("Repopulating database...")
         clear_mappers()
         mapper_registry.metadata.create_all(database_engine)
@@ -43,8 +49,6 @@ def create_app():
             with database_engine.connect() as connection:
                 connection.execute(table.delete())
         map_model_to_tables()
-        csv_reader = MovieCSVReader(movies_file=movies_filename, genres_file=genres_filename,
-                                posters_file=posters_filename)
         database_repository_populate(csvreader=csv_reader, repo=repo.repo_instance)
         print("Repopulating database... Finished")
     else:

@@ -52,6 +52,11 @@ class DatabaseRepository(AbstractRepository):
 
     # implement relevant methods in abstract repository
 
+    def add_user(self, user: User):
+        with self._session_cm as scm:
+            scm.session.add(user)
+            scm.commit()
+
     def get_user(self, user_name: str) -> User:
         user = None
         try:
@@ -59,11 +64,6 @@ class DatabaseRepository(AbstractRepository):
         except NoResultFound:
             pass
         return user
-    
-    def add_user(self, user: User):
-        with self._session_cm as scm:
-            scm.session.add(user)
-            scm.commit()
 
     def update_user(self, user: User):
         with self._session_cm as scm:
